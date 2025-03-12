@@ -48,8 +48,25 @@ const Home = () => {
     fetchPosts();
   }, []);
 
-  const handleDelete = (id) => {
-    setAllPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
+  const handleDelete = async (id) => {
+    console.log(`Deleting post with ID: ${id}`); // ✅ Debugging log
+    try {
+      const response = await fetch(`https://image-generator-ca5l.onrender.com/api/v1/post/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        setAllPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
+      } else {
+        alert('Failed to delete post');
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      alert('Error deleting post');
+    }
   };
 
   const handleSearchChange = (e) => {
