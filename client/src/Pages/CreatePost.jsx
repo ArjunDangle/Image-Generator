@@ -25,7 +25,7 @@ const CreatePost = () => {
         setGeneratingImg(true);
         console.log('Sending prompt:', form.prompt);
   
-        const response = await fetch('http://localhost:3000/api/v1/huggingface', {
+        const response = await fetch('https://image-generator-ca5l.onrender.com/api/v1/huggingface', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const CreatePost = () => {
 
       try {
         
-        const response = await fetch('http://localhost:3000/api/v1/post',{
+        const response = await fetch('https://image-generator-ca5l.onrender.com/api/v1/post',{
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

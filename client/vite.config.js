@@ -2,14 +2,15 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
+  base: '/',
   plugins: [react()],
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000', // ✅ Backend URL
+        target: process.env.VITE_BACKEND_URL,
         changeOrigin: true,
-        secure: false,
-        ws: true, // ✅ Enable WebSockets
+        secure: true,
+        ws: true,
       },
     },
   },
