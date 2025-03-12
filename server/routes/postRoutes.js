@@ -46,21 +46,24 @@ router.post('/', async(req, res) =>{
 
 //DELETE POST ROUTE
 router.delete('/:id', async (req, res) => {
-    try {
-      const { id } = req.params;
-      console.log(`Deleting post with ID: ${id}`); // ✅ Debugging log
-  
-      const deletedPost = await Post.findByIdAndDelete(id);
-  
-      if (!deletedPost) {
-        return res.status(404).json({ error: 'Post not found' });
-      }
-  
-      res.status(200).json({ message: 'Post deleted successfully' });
-    } catch (error) {
-      console.error('Error deleting post:', error);
-      res.status(500).json({ error: 'Failed to delete post' });
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'Invalid post ID' });
     }
-  });
+
+    const deletedPost = await Post.findByIdAndDelete(id);
+
+    if (!deletedPost) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    res.status(200).json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    res.status(500).json({ error: 'Failed to delete post' });
+  }
+});
 
 export default router;
