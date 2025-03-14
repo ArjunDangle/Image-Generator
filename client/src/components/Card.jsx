@@ -24,8 +24,6 @@ const Card = ({ _id, name, prompt, photo, onDelete }) => {
       }
     } catch (error) {
       alert('Error deleting post');
-    } finally {
-      setDeleting(false);
     }
   };
 
