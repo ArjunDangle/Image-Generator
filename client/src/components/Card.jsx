@@ -7,7 +7,7 @@ const Card = ({ _id, name, prompt, photo, onDelete }) => {
     console.log(`Attempting to delete post with ID: ${_id}`); // ✅ Debugging log
   
     try {
-      const response = await fetch(`/api/v1/post/${_id}`, {
+      const response = await fetch(`https://image-generator-ca5l.onrender.com/api/v1/post/${_id}`, {
         method: 'DELETE',
       });
   

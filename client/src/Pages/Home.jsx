@@ -49,7 +49,13 @@ const Home = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    console.log(`Deleting post with ID: ${id}`); // ✅ Debugging log
+    console.log(`Attempting to delete post with ID: ${id}`); // ✅ Log ID
+  
+    if (!id) {
+      console.error('No ID provided for delete request');
+      return;
+    }
+  
     try {
       const response = await fetch(`https://image-generator-ca5l.onrender.com/api/v1/post/${id}`, {
         method: 'DELETE',
@@ -57,10 +63,13 @@ const Home = () => {
           'Content-Type': 'application/json',
         },
       });
-
+  
       if (response.ok) {
+        console.log('Post deleted successfully');
         setAllPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
       } else {
+        const errorMessage = await response.json();
+        console.log('Failed to delete:', errorMessage);
         alert('Failed to delete post');
       }
     } catch (error) {
@@ -68,6 +77,7 @@ const Home = () => {
       alert('Error deleting post');
     }
   };
+  
 
   const handleSearchChange = (e) => {
     clearTimeout(searchTimeout);
