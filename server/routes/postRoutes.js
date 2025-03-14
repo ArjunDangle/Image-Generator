@@ -2,6 +2,8 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 import {v2 as cloudinary} from 'cloudinary';
 import axios from 'axios';
+import mongoose from 'mongoose';
+
 
 import Post from '../mongodb/models/post.js'
 
