@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { download } from '../assets';
 import { downloadImage } from '../utils';
 
 const Card = ({ _id, name, prompt, photo, onDelete }) => {
+  const [deleting, setDeleting] = useState(false);
+
   const handleDelete = async () => {
-    console.log(`Attempting to delete post with ID: ${_id}`); // ✅ Debugging log
-  
+    if (deleting) return;
+    setDeleting(true);
+
     try {
       const response = await fetch(`https://image-generator-ca5l.onrender.com/api/v1/post/${_id}`, {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
-  
+
       if (response.ok) {
         onDelete(_id);
       } else {
-        console.error('Failed to delete post:', response.status);
+        alert('Failed to delete post');
       }
     } catch (error) {
-      console.error('Error deleting post:', error);
+      alert('Error deleting post');
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -39,7 +47,6 @@ const Card = ({ _id, name, prompt, photo, onDelete }) => {
             <p className="text-white text-sm">{name}</p>
           </div>
           <div className="flex gap-2">
-            {/* ✅ Download Button */}
             <button
               type="button"
               onClick={() => downloadImage(_id, photo)}
@@ -47,14 +54,13 @@ const Card = ({ _id, name, prompt, photo, onDelete }) => {
             >
               <img src={download} alt="download" className="w-6 h-6 object-contain invert" />
             </button>
-
-            {/* ✅ Delete Button */}
             <button
               type="button"
               onClick={handleDelete}
               className="outline-none bg-transparent border-none text-red-500"
+              disabled={deleting}
             >
-              🗑️
+              {deleting ? '⏳' : '🗑️'}
             </button>
           </div>
         </div>
