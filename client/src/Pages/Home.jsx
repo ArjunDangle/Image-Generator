@@ -17,10 +17,10 @@ const RenderCards = ({ data, title, onDelete }) => {
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
-  const [allPosts, setAllPosts] = useState(null);
+  const [allPosts, setAllPosts] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [searchTimeout, setSearchTimeout] = useState(null);
-  const [searchedResults, setSearchedResults] = useState(null);
+  const [searchedResults, setSearchedResults] = useState([]);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
@@ -63,6 +63,7 @@ const Home = () => {
 
       if (response.ok) {
         setAllPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
+        setSearchedResults((prevResults) => prevResults.filter((post) => post._id !== id));
       } else {
         alert('Failed to delete post');
       }
